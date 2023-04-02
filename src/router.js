@@ -6,6 +6,7 @@ import Register from './components/Register.vue'
 const Profile = () => import('./components/Profile.vue')
 const BoardAdmin = () => import('./components/BoardAdmin.vue')
 const RoomItems = () => import('./components/admin/RoomItems.vue')
+const Users = () => import('./components/admin/User.vue')
 const RoomItemsTemplates = () => import('./components/admin/RoomItemsTemplates.vue')
 const BoardModerator = () => import('./components/BoardModerator.vue')
 const BoardUser = () => import('./components/BoardUser.vue')
@@ -35,13 +36,19 @@ const routes = [
         component: Profile,
     },
     {
-        path: '/room-items',
+        path: '/admin/room-items',
         name: 'room items',
         // lazy-loaded
         component: RoomItems,
     },
     {
-        path: '/room-item-templates/template/:propTemplateId',
+        path: '/admin/users',
+        name: 'users',
+        // lazy-loaded
+        component: Users,
+    },
+    {
+        path: '/admin/room-item-templates/template/:propTemplateId',
         name: 'update room item templates',
         // lazy-loaded
         component: RoomItemsTemplates,
@@ -52,7 +59,7 @@ const routes = [
         }
     },
     {
-        path: '/room-item-templates/item/:propItemId',
+        path: '/admin/room-item-templates/item/:propItemId',
         name: 'list items for template',
         // lazy-loaded
         component: RoomItemsTemplates,
@@ -63,7 +70,7 @@ const routes = [
         }
     },
     {
-        path: '/room-item-templates/create',
+        path: '/admin/room-item-templates/create',
         name: 'create template',
         // lazy-loaded
         component: RoomItemsTemplates,
@@ -74,7 +81,7 @@ const routes = [
         }
     },
     {
-        path: '/room-item-templates/:propTemplateId',
+        path: '/admin/room-item-templates/:propTemplateId',
         name: 'update template',
         // lazy-loaded
         component: RoomItemsTemplates,
@@ -85,7 +92,7 @@ const routes = [
         }
     },
     {
-        path: '/room-item-templates',
+        path: '/admin/room-item-templates',
         name: 'room item templates',
         // lazy-loaded
         component: RoomItemsTemplates,

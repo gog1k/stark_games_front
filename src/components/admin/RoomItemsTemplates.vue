@@ -1,12 +1,12 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <header>
             <template v-if="activeView==='all' || activeView === 'listForItem' || activeView === 'listForTemplate'">
-                <h3>Room item templates</h3>
+                <h3 class="mt-3">Room item templates</h3>
                 <div v-if="activeView !== 'all'" class="btn btn-primary mb-3 mr-3" v-on:click="goToList()">All templates</div>
                 <div class="btn btn-primary mb-3 mr-3" v-on:click="createItem()">Create new</div>
                 <div>
-                    <table class="table">
+                    <table class="table table-bordered table-striped">
                         <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -41,7 +41,7 @@
             </template>
             <template v-else-if="activeView==='update' || activeView === 'create'">
                 <div>
-                    <h3>
+                    <h3 class="mt-3">
                         <template v-if="activeView === 'update'">
                             Edit template
                         </template>
@@ -142,7 +142,7 @@ export default {
     },
     methods: {
         goToList() {
-            router.push('/room-item-templates')
+            router.push('/admin/room-item-templates')
             this.getTemplates('all')
         },
         getTemplates(type) {
@@ -221,7 +221,7 @@ export default {
         saveTemplate() {
             TemplateService.save(this.template).then(
                 () => {
-                    router.push('/room-item-templates')
+                    router.push('/admin/room-item-templates')
                     this.getTemplates('all')
                 },
                 (error) => {
@@ -231,11 +231,11 @@ export default {
         },
         editItem(id) {
             this.templateId = id
-            router.push('/room-item-templates/' + this.templateId)
+            router.push('/admin/room-item-templates/' + this.templateId)
             this.getTemplate('update')
         },
         createItem() {
-            router.push('/room-item-templates/create')
+            router.push('/admin/room-item-templates/create')
             this.getTemplate('create')
         },
         handleFileUpload(event) {

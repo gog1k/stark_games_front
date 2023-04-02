@@ -1,14 +1,24 @@
 <template>
-    <div class="container">
-        <header>
-            <h3>Room items</h3>
-        </header>
+    <div class="container-fluid">
+        <h3 class="mt-3">
+            <template v-if="activeView === 'list'">
+                <h3 class="mt-3">Room items</h3>
+            </template>
+            <template v-else>
+                <template v-if="issetItem">
+                    Edit item
+                </template>
+                <template v-else>
+                    Create item
+                </template>
+            </template>
+        </h3>
         <template v-if="activeView !== 'edit'">
             <div class="btn btn-primary mb-3 mr-3" v-on:click="editItem()">Create new</div>
         </template>
         <template v-if="activeView === 'list'">
             <div>
-                <table class="table">
+                <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -44,12 +54,6 @@
         </template>
         <template v-if="activeView === 'edit'">
             <div>
-                <template v-if="issetItem">
-                    Edit item
-                </template>
-                <template v-else>
-                    Create item
-                </template>
                 <div class="row">
                     <div class="form-group col-12">
                         <div class="form-check">
@@ -115,7 +119,7 @@ export default {
             this.activeView = 'edit'
         },
         getTemplates(id) {
-            router.push('/room-item-templates/template/' + id)
+            router.push('/admin/room-item-templates/template/' + id)
         },
         saveItem() {
             let self = this

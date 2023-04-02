@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <nav class="navbar navbar-expand navbar-dark bg-dark">
+    <div class="body">
+        <nav class="navbar navbar-expand navbar-dark bg-dark navbar">
             <a href="/" class="navbar-brand">Stark</a>
             <div class="navbar-nav mr-auto">
                 <li class="nav-item">
@@ -51,24 +51,76 @@
             </div>
         </nav>
 
-        <div class="container-fluid">
-            <router-view/>
+        <div class="container-fluid" id="content">
+            <div class="row">
+                <div class="col-2 admin-menu" v-if="isAdminDirectory">
+                    <nav id="sidebar">
+                        <ul class="nav flex-column">
+                            <li class="nav-item" v-if="isSuperUser">
+                                <router-link to="/admin/projects" class="nav-link">Projects</router-link>
+                            </li>
+                            <li class="nav-item" v-if="isSuperUser">
+                                <router-link to="/admin/users" class="nav-link">Users</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link to="/admin/room-items" class="nav-link">Room items</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link to="/admin/room-item-templates" class="nav-link">Room items templates</router-link>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-10 admin-content" :class="[isAdminDirectory ? 'col-9' : 'col-12']">
+                    <div id="content" class="row">
+                        <router-view/>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </template>
 
+<style lang="scss">
+@import "@/assets/styles/global.scss";
+@import "@/assets/styles/app.scss";
+</style>
+
 <script>
+
 export default {
     computed: {
+        isSuperUser() {
+            return !!(
+                this.currentUser
+                && this.currentUser['groups']
+                && this.currentUser['groups'].includes('SuperUser')
+            )
+        },
+        isProjectAdmin() {
+            return !!(
+                this.currentUser
+                && this.currentUser['projects']
+                && this.currentUser['projects'].filter(project => project['group'].includes('ProjectAdmin'))
+            )
+        },
+        isProjectManager() {
+            return !!(
+                this.currentUser
+                && this.currentUser['projects']
+                && this.currentUser['projects'].filter(project => project['group'].includes('ProjectManager'))
+            )
+        },
+        isAdminDirectory() {
+            return this.$route.path.startsWith('/admin')
+                && this.showAdminBoard
+        },
         currentUser() {
             return this.$store.state.auth.user
         },
         showAdminBoard() {
-            if (this.currentUser && this.currentUser['groups']) {
-                return this.currentUser['groups'].includes('Admin')
-            }
-
-            return false
+            return this.isSuperUser || this.isProjectAdmin || this.isProjectManager;
         },
         showModeratorBoard() {
             if (this.currentUser && this.currentUser['groups']) {
