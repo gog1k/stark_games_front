@@ -129,17 +129,6 @@ export default {
             required: false,
         },
     },
-    computed: {
-        issetItemId() {
-            return +this.itemId > 0
-        },
-        issetId() {
-            return +this.id > 0
-        },
-        issetTemplate() {
-            return typeof this.id !== 'undefined'
-        },
-    },
     methods: {
         goToList() {
             router.push('/admin/room-item-templates')

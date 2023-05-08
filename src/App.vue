@@ -73,7 +73,7 @@
                 </div>
                 <div class="col-10 admin-content" :class="[isAdminDirectory ? 'col-9' : 'col-12']">
                     <div id="content" class="row">
-                        <router-view/>
+                        <router-view :key="$route.fullPath"/>
                     </div>
                 </div>
             </div>
