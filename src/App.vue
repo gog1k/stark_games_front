@@ -57,16 +57,22 @@
                     <nav id="sidebar">
                         <ul class="nav flex-column">
                             <li class="nav-item" v-if="isSuperUser">
-                                <router-link to="/admin/projects" class="nav-link">Projects</router-link>
+                                <router-link :to="{ name: 'projects' }" class="nav-link">Projects</router-link>
                             </li>
                             <li class="nav-item" v-if="isSuperUser">
-                                <router-link to="/admin/users" class="nav-link">Users</router-link>
+                                <router-link :to="{ name: 'users' }" class="nav-link">Users</router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link to="/admin/room-items" class="nav-link">Room items</router-link>
+                                <router-link :to="{ name: 'room-items' }" class="nav-link">Room items</router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link to="/admin/room-item-templates" class="nav-link">Room items templates</router-link>
+                                <router-link :to="{ name: 'room-item-templates' }" class="nav-link">Room items templates</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link :to="{ name: 'events' }" class="nav-link">Events</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link :to="{ name: 'achievements' }" class="nav-link">Achievements</router-link>
                             </li>
                         </ul>
                     </nav>

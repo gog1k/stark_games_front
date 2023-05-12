@@ -2,14 +2,14 @@
     <div class="container-fluid">
         <h3 class="mt-3">
             <template v-if="activeView === 'list'">
-                <h3 class="mt-3">Room items</h3>
+                <h3 class="mt-3">Events</h3>
             </template>
             <template v-else>
-                <template v-if="issetRoomItem">
-                    Edit room item
+                <template v-if="issetAchievement">
+                    Edit event
                 </template>
                 <template v-else>
-                    Create room item
+                    Create event
                 </template>
             </template>
         </h3>
@@ -24,31 +24,34 @@
                         <th scope="col">#</th>
                         <th scope="col">Active</th>
                         <th scope="col">Name</th>
-                        <th scope="col">type</th>
+                        <th scope="col">Code</th>
+                        <th scope="col">Fields</th>
                         <th scope="col">Project</th>
                         <th scope="col">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <template v-for="(roomItem,index) in roomItems" :key="roomItem">
+                    <template v-for="(event,index) in event" :key="event">
                         <tr>
                             <th scope="row">{{ index + 1 }}</th>
                             <td>
-                                <template v-if="roomItem.active">
+                                <template v-if="event.active">
                                     <i class="fa-xl bi bi-check-circle-fill text-success"></i>
                                 </template>
                                 <template v-else>
                                     <i class="fa-xl bi bi-x-circle-fill text-danger"></i>
                                 </template>
                             </td>
-                            <td>{{ roomItem.name }}</td>
-                            <td>{{ roomItem.type }}</td>
+                            <td>{{ event.name }}</td>
+                            <td>{{ event.code }}</td>
                             <td>
-                                <router-link v-if="roomItem.project?.id" :to="{ name: 'edit-project', params: { propProjectId: roomItem.project.id }}">{{ roomItem.project.name }}</router-link>
+                                <div v-for="field in event.fields" :key="field">{{ field }}</div>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-primary mr-3" v-on:click="edit(roomItem.id)">Edit</button>
-                                <button type="button" class="btn btn-warning mr-3" v-on:click="getTemplates(roomItem.id)">Templates</button>
+                                <router-link :to="{ name: 'edit-project', params: { propProjectId: event.project.id }}">{{ event.project.name }}</router-link>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary mr-3" v-on:click="edit(event.id)">Edit</button>
                             </td>
                         </tr>
                     </template>
@@ -68,7 +71,7 @@
                 <div class="row">
                     <div class="form-group col-12">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" v-model="currentRoomItem.active">
+                            <input class="form-check-input" type="checkbox" v-model="currentAchievement.active">
                             <label class="form-check-label" for="activeCheckBox">
                                 Active
                             </label>
@@ -76,16 +79,20 @@
                     </div>
                     <div class="form-group col-12">
                         <label>Name</label>
-                        <input type="text" class="form-control" placeholder="Item name" v-model="currentRoomItem.name">
-                    </div>
-                    <div class="form-group col-12">
-                        <label>Type</label>
-                        <input type="text" class="form-control" placeholder="Item type" v-model="currentRoomItem.type">
+                        <input type="text" class="form-control" placeholder="Event name" v-model="currentAchievement.name">
                     </div>
                     <template v-if="activeView === 'create'">
                         <div class="form-group col-12">
+                            <label>Type</label>
+                            <input type="text" class="form-control" placeholder="Event code" v-model="currentAchievement.code">
+                        </div>
+                        <div class="form-group col-12">
+                            <label>Fields</label>
+                            <input type="text" class="form-control" placeholder="game_name,game_id" v-model="currentAchievement.fields">
+                        </div>
+                        <div class="form-group col-12">
                             <label>Project</label>
-                            <select class="form-control" v-model="currentRoomItem.project_id">
+                            <select class="form-control" v-model="currentAchievement.project_id" @change="getAllowItemTemplates()">
                                 <option v-for="(project, index) in projects" :key="project" :value="index">{{ project }}</option>
                             </select>
                         </div>
@@ -93,7 +100,7 @@
                 </div>
                 <div>
                     <div class="btn btn-success mr-3" v-on:click="save()">
-                        <template v-if="issetRoomItem">
+                        <template v-if="issetAchievement">
                             Update
                         </template>
                         <template v-else>
@@ -108,23 +115,25 @@
 </template>
 
 <script>
+import EventService from '../../services/admin/event.service'
 import ProjectService from '@/services/admin/project.service'
-import RoomItemService from '../../services/admin/roomItem.service'
 import Pagination from '@/components/Pagination.vue'
+import ItemTemplateService from '@/services/admin/item-template.service'
 
 export default {
     components: {
         Pagination,
     },
-    name: 'admin-room-items',
+    name: 'admin-event',
     data() {
         return {
-            roomItems: Array,
+            event: Array,
             pagination: Array,
             activeView: this.propActiveView,
-            roomItemId: this.propRoomItemId,
-            currentRoomItem: {},
+            eventId: this.propEventId,
+            currentAchievement: {},
             projects: [],
+            itemTemplates: [],
         }
     },
     props: {
@@ -133,42 +142,60 @@ export default {
             default: 'list',
             required: false,
         },
-        propRoomItemId: {
+        propEventId: {
             type: String,
             default: '',
             required: false,
         },
     },
     computed: {
-        issetRoomItem() {
-            return typeof this.currentRoomItem.id !== 'undefined' && this.currentRoomItem.id > 0
-        }
+        issetAchievement() {
+            return typeof this.currentAchievement.id !== 'undefined' && this.currentAchievement.id > 0
+        },
     },
     methods: {
         changePage(page) {
             if (this.pagination.currentPage === page) {
                 return
             }
-            this.$router.push({ name: 'room-items', query: { page: page } })
+            this.$router.push({ name: 'events', query: { page: page } })
         },
         goToList() {
             this.$router.push({ path: this.$router.options.history.state.back })
         },
         edit(id) {
-            this.$router.push({ name: 'edit-room-item', params: { propRoomItemId: id } })
-        },
-        getTemplates(id) {
-            this.$router.push('/admin/room-item-templates/template/' + id)
+            this.$router.push({ name: 'edit-event', params: { propEventId: id } })
         },
         create() {
-            this.$router.push({ name: 'create-room-item' })
+            this.$router.push({ name: 'create-event' })
         },
-        getRoomItem(id) {
+        async getAllowProjects() {
             let self = this
-
-            RoomItemService.get(id).then(
+            await ProjectService.allowProjectList().then(
                 (response) => {
-                    self.currentRoomItem = response.data
+                    self.projects = response.data
+                },
+                (error) => {
+                    console.log(error)
+                },
+            )
+        },
+        getAllowItemTemplates() {
+            let self = this
+            ItemTemplateService.allowListForProject(self.currentAchievement.project_id).then(
+                (response) => {
+                    self.itemTemplates = response.data
+                },
+                (error) => {
+                    console.log(error)
+                },
+            )
+        },
+        getAchievement(id) {
+            let self = this
+            EventService.get(id).then(
+                (response) => {
+                    self.currentAchievement = response.data
                     self.activeView = 'edit'
                 },
                 (error) => {
@@ -179,9 +206,9 @@ export default {
         getList() {
             let self = this
 
-            RoomItemService.all(this.$route.query?.page).then(
+            EventService.all(this.$route.query?.page).then(
                 (response) => {
-                    self.roomItems = response.data.items
+                    self.event = response.data.items
                     self.pagination = response.data.pagination
                     self.activeView = 'list'
                 },
@@ -192,8 +219,7 @@ export default {
         },
         save() {
             let self = this
-
-            RoomItemService.save(this.currentRoomItem).then(
+            EventService.save(this.currentAchievement).then(
                 () => {
                     self.goToList()
                 },
@@ -207,29 +233,20 @@ export default {
                 this.getList()
             }
             if (this.activeView === 'edit') {
-                this.getRoomItem(this.roomItemId)
+                this.getAchievement(this.eventId)
             }
             if (this.activeView === 'create') {
+
                 await this.getAllowProjects()
-                this.currentRoomItem = {
+                this.currentAchievement = {
                     id: 0,
                     active: true,
                     name: '',
-                    type: '',
+                    code: '',
                     project_id: 0,
+                    fields: '',
                 }
             }
-        },
-        async getAllowProjects() {
-            let self = this
-            await ProjectService.allowProjectList().then(
-                (response) => {
-                    self.projects = response.data
-                },
-                (error) => {
-                    console.log(error)
-                },
-            )
         },
     },
     mounted() {

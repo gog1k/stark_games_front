@@ -5,8 +5,8 @@ const API_URL = process.env.VUE_APP_API_URL
 
 class RoomItemService
 {
-    getAll() {
-        return axios.get(API_URL + '/admin/room-items', { headers: authHeader() })
+    all(page = 0) {
+        return axios.get(API_URL + '/admin/room-items?page=' + page, { headers: authHeader() })
     }
 
     get(id) {
@@ -14,11 +14,7 @@ class RoomItemService
     }
 
     save(item) {
-        if (item.id > 0) {
-            return axios.post(API_URL + '/admin/room-items/update', item, { headers: authHeader() })
-        } else {
-            return axios.post(API_URL + '/admin/room-items/create', item, { headers: authHeader() })
-        }
+        return axios.post(API_URL + '/admin/room-items/' + (item.id > 0 ? item.id : 'create'), item, { headers: authHeader() })
     }
 }
 

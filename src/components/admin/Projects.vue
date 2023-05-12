@@ -13,7 +13,7 @@
                 </template>
             </template>
         </h3>
-        <template v-if="activeView !== 'edit'">
+        <template v-if="activeView === 'list'">
             <div class="btn btn-primary mb-3 mr-3" v-on:click="create()">Create new</div>
         </template>
         <template v-if="activeView === 'list'">
@@ -53,8 +53,8 @@
             <div>
                 <div class="row">
                     <div class="form-group col-12">
-                        <label for="exampleInputEmail1">Name</label>
-                        <input type="email" class="form-control" placeholder="Item name" v-model="currentProject.name">
+                        <label>Name</label>
+                        <input type="text" class="form-control" placeholder="Project name" v-model="currentProject.name">
                     </div>
                 </div>
                 <div>
@@ -140,7 +140,7 @@ export default {
         getList() {
             let self = this
 
-            ProjectService.getAll(this.$route.query?.page).then(
+            ProjectService.all(this.$route.query?.page).then(
                 (response) => {
                     self.projects = response.data.items
                     self.pagination = response.data.pagination

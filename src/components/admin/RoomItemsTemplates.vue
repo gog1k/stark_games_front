@@ -59,8 +59,8 @@
                             </div>
                         </div>
                         <div class="form-group col-12">
-                            <label for="exampleInputEmail1">Name</label>
-                            <input type="email" class="form-control" placeholder="Template name" v-model="template.name">
+                            <label>Name</label>
+                            <input type="text" class="form-control" placeholder="Template name" v-model="template.name">
                         </div>
                         <div class="form-group col-12">
                             <label>File</label>
@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import TemplateService from '@/services/admin/template.service'
+import ItemTemplateService from '@/services/admin/item-template.service'
 import router from '@/router'
 
 export default {
@@ -139,7 +139,7 @@ export default {
 
             if (type === 'listForTemplate') {
 
-                TemplateService.getAllForTemplate(self.templateId).then(
+                ItemTemplateService.allForTemplate(self.templateId).then(
                     (response) => {
                         self.templates = response.data
                         self.activeView = type
@@ -152,7 +152,7 @@ export default {
             }
 
             if (type === 'listForItem') {
-                TemplateService.getAllForItem(self.itemId).then(
+                ItemTemplateService.allForItem(self.itemId).then(
                     (response) => {
                         self.templates = response.data
                         self.activeView = type
@@ -166,7 +166,7 @@ export default {
 
             if (type === 'all') {
 
-                TemplateService.getAll(self.itemId).then(
+                ItemTemplateService.all(self.itemId).then(
                     (response) => {
                         self.templates = response.data
                         self.activeView = type
@@ -183,7 +183,7 @@ export default {
 
             if (type === 'update') {
 
-                TemplateService.get(this.templateId).then(
+                ItemTemplateService.get(this.templateId).then(
                     (response) => {
                         self.template = response.data
                         self.template.active = !!self.template.active
@@ -208,7 +208,7 @@ export default {
             }
         },
         saveTemplate() {
-            TemplateService.save(this.template).then(
+            ItemTemplateService.save(this.template).then(
                 () => {
                     router.push('/admin/room-item-templates')
                     this.getTemplates('all')

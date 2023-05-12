@@ -65,12 +65,12 @@
                         </div>
                     </div>
                     <div class="form-group col-12">
-                        <label for="exampleInputEmail1">Name</label>
-                        <input type="email" class="form-control" placeholder="User name" v-model="currentUser.name">
+                        <label>Name</label>
+                        <input type="text" class="form-control" placeholder="User name" v-model="currentUser.name">
                     </div>
                     <div class="form-group col-12">
-                        <label for="exampleInputEmail1">Email</label>
-                        <input type="email" class="form-control" placeholder="USer email" v-model="currentUser.email">
+                        <label>Email</label>
+                        <input type="email" class="form-control" placeholder="User email" v-model="currentUser.email">
                     </div>
                 </div>
                 <div>
@@ -143,7 +143,7 @@ export default {
         getList() {
             let self = this
 
-            UserService.getAll(this.$route.query?.page).then(
+            UserService.all(this.$route.query?.page).then(
                 (response) => {
                     self.users = response.data.items
                     self.pagination = response.data.pagination

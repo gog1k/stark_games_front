@@ -3,22 +3,26 @@ import authHeader from '../auth-header'
 
 const API_URL = process.env.VUE_APP_API_URL
 
-class TemplateService
+class ItemTemplateService
 {
-    getAll() {
-        return axios.get(API_URL + '/admin/room-item-template', { headers: authHeader() })
+    all() {
+        return axios.get(API_URL + '/admin/room-item-templates', { headers: authHeader() })
+    }
+
+    allowListForProject(id) {
+        return axios.get(API_URL + '/admin/room-item-templates/allowList/' + id, { headers: authHeader() })
     }
 
     getAllForTemplate(templateId) {
-        return axios.get(API_URL + '/admin/room-item-template/template/' + templateId, { headers: authHeader() })
+        return axios.get(API_URL + '/admin/room-item-templates/template/' + templateId, { headers: authHeader() })
     }
 
     getAllForItem(itemId) {
-        return axios.get(API_URL + '/admin/room-item-template/item/' + itemId, { headers: authHeader() })
+        return axios.get(API_URL + '/admin/room-item-templates/item/' + itemId, { headers: authHeader() })
     }
 
     get(id) {
-        return axios.get(API_URL + '/admin/room-item-template/' + id, { headers: authHeader() })
+        return axios.get(API_URL + '/admin/room-item-templates/' + id, { headers: authHeader() })
     }
 
     save(item) {
@@ -40,4 +44,4 @@ class TemplateService
     }
 }
 
-export default new TemplateService()
+export default new ItemTemplateService()

@@ -6,6 +6,8 @@ import Register from './components/Register.vue'
 const Profile = () => import('./components/Profile.vue')
 const BoardAdmin = () => import('./components/BoardAdmin.vue')
 const RoomItems = () => import('./components/admin/RoomItems.vue')
+const Achievements = () => import('./components/admin/Achievements.vue')
+const Events = () => import('./components/admin/Events.vue')
 const Users = () => import('./components/admin/User.vue')
 const RoomItemsTemplates = () => import('./components/admin/RoomItemsTemplates.vue')
 const Projects = () => import('./components/admin/Projects.vue')
@@ -133,6 +135,76 @@ const routes = [
 
 
     {
+        path: '/admin/achievements/create',
+        name: 'create-achievement',
+        // lazy-loaded
+        component: Achievements,
+        props: function(route) {
+            return Object.assign({}, route.params, {
+                propActiveView: 'create'
+            })
+        }
+    },
+    {
+        path: '/admin/achievements/:propAchievementId',
+        name: 'edit-achievement',
+        // lazy-loaded
+        component: Achievements,
+        props: function(route) {
+            return Object.assign({}, route.params, {
+                propActiveView: 'edit'
+            })
+        }
+    },
+    {
+        path: '/admin/achievements',
+        name: 'achievements',
+        // lazy-loaded
+        component: Achievements,
+        props: function(route) {
+            return Object.assign({}, route.params, {
+                propActiveView: 'list'
+            })
+        }
+    },
+
+
+    {
+        path: '/admin/events/create',
+        name: 'create-event',
+        // lazy-loaded
+        component: Events,
+        props: function(route) {
+            return Object.assign({}, route.params, {
+                propActiveView: 'create'
+            })
+        }
+    },
+    {
+        path: '/admin/events/:propEventId',
+        name: 'edit-event',
+        // lazy-loaded
+        component: Events,
+        props: function(route) {
+            return Object.assign({}, route.params, {
+                propActiveView: 'edit'
+            })
+        }
+    },
+    {
+        path: '/admin/events',
+        name: 'events',
+        // lazy-loaded
+        component: Events,
+        props: function(route) {
+            return Object.assign({}, route.params, {
+                propActiveView: 'list'
+            })
+        }
+    },
+
+
+    {
         path: '/admin/room-item-templates/template/:propTemplateId',
         name: 'update room item templates',
         // lazy-loaded
@@ -178,7 +250,7 @@ const routes = [
     },
     {
         path: '/admin/room-item-templates',
-        name: 'room item templates',
+        name: 'room-item-templates',
         // lazy-loaded
         component: RoomItemsTemplates,
         props: true,

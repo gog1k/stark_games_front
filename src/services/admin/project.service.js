@@ -5,8 +5,12 @@ const API_URL = process.env.VUE_APP_API_URL
 
 class ProjectService
 {
-    getAll(page = 0) {
+    all(page = 0) {
         return axios.get(API_URL + '/admin/projects?page=' + page, { headers: authHeader() })
+    }
+
+    allowProjectList() {
+        return axios.get(API_URL + '/admin/projects/allowList', { headers: authHeader() })
     }
 
     get(id) {
@@ -14,11 +18,7 @@ class ProjectService
     }
 
     save(item) {
-        if (item.id > 0) {
-            return axios.post(API_URL + '/admin/projects/update', item, { headers: authHeader() })
-        } else {
-            return axios.post(API_URL + '/admin/projects/create', item, { headers: authHeader() })
-        }
+        return axios.post(API_URL + '/admin/projects/' + (item.id > 0 ? item.id : 'create'), item, { headers: authHeader() })
     }
 }
 

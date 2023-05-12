@@ -81,6 +81,10 @@ export default {
     padding: 5px 10px;
     cursor: pointer;
 }
+.pagination li.active a,
+.pagination li.disabled a {
+    cursor: default;
+}
 .pagination li.active {
     background-color: #337ab7;
     color: #fff;
