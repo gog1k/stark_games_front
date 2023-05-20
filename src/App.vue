@@ -1,13 +1,10 @@
 <template>
     <div class="body">
-        <nav class="navbar navbar-expand navbar-dark bg-dark navbar">
+        <nav class="navbar navbar-expand navbar-dark navbar">
             <a href="/" class="navbar-brand">Stark</a>
             <div class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <router-link to="/home" class="nav-link">
-                        <font-awesome-icon icon="home"/>
-                        Home
-                    </router-link>
+                <li v-if="currentUser" class="nav-item">
+                    <router-link to="/games" class="nav-link">Games</router-link>
                 </li>
                 <li v-if="showAdminBoard" class="nav-item">
                     <router-link to="/admin" class="nav-link">Admin Board</router-link>
@@ -77,8 +74,8 @@
                         </ul>
                     </nav>
                 </div>
-                <div class="col-10 admin-content" :class="[isAdminDirectory ? 'col-9' : 'col-12']">
-                    <div id="content" class="row">
+                <div :class="[isAdminDirectory ? 'col-9' : 'col-12']">
+                    <div id="route-content" class="row">
                         <router-view :key="$route.fullPath"/>
                     </div>
                 </div>

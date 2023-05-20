@@ -1,5 +1,6 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import Home from './components/Home.vue'
+import Games from './components/Games.vue'
 import Login from './components/Login.vue'
 import Register from './components/Register.vue'
 // lazy-loaded
@@ -20,6 +21,28 @@ const routes = [
         name: 'home',
         component: Home,
     },
+
+    {
+        path: '/games/:propGameId',
+        name: 'page-games',
+        // lazy-loaded
+        component: Games,
+        props: function(route) {
+            return Object.assign({}, route.params, {
+                propActiveView: 'game'
+            })
+        }
+    },
+    {
+        path: '/games',
+        component: Games,
+        props: function(route) {
+            return Object.assign({}, route.params, {
+                propActiveView: 'list'
+            })
+        }
+    },
+
     {
         path: '/home',
         component: Home,
@@ -262,6 +285,15 @@ const routes = [
         name: 'admin',
         // lazy-loaded
         component: BoardAdmin,
+        // beforeEnter(to, from, next) {
+        //     if (!isAuthenticated()) {
+        //         next({
+        //             name: "home"
+        //         });
+        //     } else {
+        //         next()
+        //     }
+        // }
     },
     {
         path: '/mod',
@@ -282,18 +314,18 @@ const router = createRouter({
     routes,
 })
 
-// router.beforeEach((to, from, next) => {
-//   const publicPages = ['/login', '/register', '/home'];
-//   const authRequired = !publicPages.includes(to.path);
-//   const loggedIn = localStorage.getItem('user');
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/login', '/register', '/home', '/'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('user');
 
-//   // trying to access a restricted page + not logged in
-//   // redirect to login page
-//   if (authRequired && !loggedIn) {
-//     next('/login');
-//   } else {
-//     next();
-//   }
-// });
+  // trying to access a restricted page + not logged in
+  // redirect to login page
+  if (authRequired && !loggedIn) {
+    next('/login');
+  } else {
+    next();
+  }
+});
 
 export default router

@@ -1,10 +1,3 @@
-#app,
-#content,
-.body {
-  height: 100%;
-  position: relative;
-}
-
 #content {
   &>div:first-child {
     position: relative;
@@ -26,12 +19,10 @@
   top: 0;
   z-index: 100;
   width: 100%;
+  background: #080808;
 }
 
 .body {
-  position: relative;
-  min-height: 100%;
-  background: blanchedalmond;
   padding-top: 56px;
 }
 

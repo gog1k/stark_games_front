@@ -14,7 +14,6 @@ class AchievementService
     }
 
     save(item) {
-        console.log(item)
         return axios.post(API_URL + '/admin/achievements/' + (item.id > 0 ? item.id : 'create'), item, { headers: authHeader() })
     }
 }
