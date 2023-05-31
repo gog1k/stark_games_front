@@ -1,6 +1,7 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <header>
+      <h3>Board</h3>
       <h3>{{ content }}</h3>
     </header>
   </div>
