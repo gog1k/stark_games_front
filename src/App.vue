@@ -3,10 +3,10 @@
         <nav class="navbar navbar-expand navbar-dark navbar">
             <a href="/" class="navbar-brand">Stark</a>
             <div class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <router-link v-if="currentUser" to="/user-room" class="nav-link">My room</router-link>
+                <li class="nav-item" v-if="currentUser">
+                    <router-link to="/user-room" class="nav-link">My room</router-link>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-if="currentUser">
                     <user-search></user-search>
                 </li>
             </div>
