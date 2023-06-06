@@ -6,6 +6,9 @@
                 <li class="nav-item">
                     <router-link v-if="currentUser" to="/user-room" class="nav-link">My room</router-link>
                 </li>
+                <li class="nav-item">
+                    <user-search></user-search>
+                </li>
             </div>
 
             <div v-if="!currentUser" class="navbar-nav ml-auto">
@@ -59,7 +62,10 @@
 
 <script>
 
+import UserSearch from '@/components/Search.vue'
+
 export default {
+    components: { UserSearch },
     computed: {
         currentUser() {
             return this.$store.state.auth.user

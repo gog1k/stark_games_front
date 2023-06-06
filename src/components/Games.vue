@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="row game" v-if="activeView === 'game'">
-            <div class="game-panel">
+            <div class="game-panel" v-if="gameLoad">
                 <div class="game-background vignette" :style="{'background': 'url('+currentGame.background_image+')'}">
                     <div class="title">{{ currentGame.name }}</div>
                     <viewer :images="currentGame.short_screenshots"></viewer>
@@ -78,6 +78,11 @@ export default {
     },
     mounted() {
         this.updatePage()
+    },
+    computed: {
+        gameLoad() {
+            return typeof this.currentGame.name !== "undefined"
+        }
     },
     methods: {
         onChange(event) {

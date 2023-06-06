@@ -12,21 +12,21 @@ const routes = [
         name: 'page-games',
         // lazy-loaded
         component: Games,
-        props: function(route) {
+        props: function (route) {
             return Object.assign({}, route.params, {
-                propActiveView: 'game'
+                propActiveView: 'game',
             })
-        }
+        },
     },
     {
         path: '/',
         name: 'home',
         component: Games,
-        props: function(route) {
+        props: function (route) {
             return Object.assign({}, route.params, {
-                propActiveView: 'list'
+                propActiveView: 'list',
             })
-        }
+        },
     },
     {
         path: '/login',
@@ -42,6 +42,14 @@ const routes = [
         // lazy-loaded
         component: Profile,
     },
+
+    {
+        path: '/user-room/:propUserName',
+        name: 'search-user-room',
+        // lazy-loaded
+        component: BoardUser,
+        props: true
+    },
     {
         path: '/user-room',
         name: 'user-room',
@@ -56,17 +64,17 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login', '/register'];
-  const authRequired = !publicPages.includes(to.path);
-  const loggedIn = localStorage.getItem('user');
+    const publicPages = ['/login', '/register']
+    const authRequired = !publicPages.includes(to.path)
+    const loggedIn = localStorage.getItem('user')
 
-  // trying to access a restricted page + not logged in
-  // redirect to login page
-  if (authRequired && !loggedIn) {
-    next('/login');
-  } else {
-    next();
-  }
-});
+    // trying to access a restricted page + not logged in
+    // redirect to login page
+    if (authRequired && !loggedIn) {
+        next('/login')
+    } else {
+        next()
+    }
+})
 
 export default router
