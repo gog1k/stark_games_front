@@ -16,6 +16,7 @@
             <div class="game-panel" v-if="gameLoad">
                 <div class="game-background vignette" :style="{'background': 'url('+currentGame.background_image+')'}">
                     <div class="title">{{ currentGame.name }}</div>
+                    <comments :prop-game-id="currentGame.id"></comments>
                     <viewer :images="currentGame.short_screenshots"></viewer>
                     <div class="rating-area" @mouseover="setRating = true" @mouseleave="setRating = false">
                         <input type="radio" id="star-5" name="rating" value="5" :class="{current: calcRating(5)}" v-model="rating" @change="onChange($event)">
@@ -46,11 +47,13 @@
 
 import GamesService from '@/services/game.service'
 import Viewer from '@/components/modules/Viewer.vue'
+import Comments from '@/components/modules/Comments.vue'
 
 export default {
     name: 'page-games',
     components: {
-        Viewer
+        Viewer,
+        Comments
     },
     props: {
         propActiveView: {
