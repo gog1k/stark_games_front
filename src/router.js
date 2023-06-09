@@ -1,5 +1,6 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import Games from './components/Games.vue'
+import MyGames from './components/MyGames.vue'
 import Login from './components/Login.vue'
 import Register from './components/Register.vue'
 // lazy-loaded
@@ -7,6 +8,17 @@ const Profile = () => import('./components/Profile.vue')
 const BoardUser = () => import('./components/BoardUser.vue')
 
 const routes = [
+    {
+        path: '/games/my',
+        name: 'page-my-games',
+        // lazy-loaded
+        component: MyGames,
+        props: function (route) {
+            return Object.assign({}, route.params, {
+                propActiveView: 'game',
+            })
+        },
+    },
     {
         path: '/games/:propGameId',
         name: 'page-games',

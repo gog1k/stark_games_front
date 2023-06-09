@@ -24,6 +24,10 @@ class GamesService
     setComment(id, comment) {
         return axios.post(API_URL + '/games/setComment/' + id, { comment: comment }, { headers: authHeader() })
     }
+
+    myGames() {
+        return axios.get(API_URL + '/games/my', { headers: authHeader() })
+    }
 }
 
 export default new GamesService()
