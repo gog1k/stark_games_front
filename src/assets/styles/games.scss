@@ -18,12 +18,11 @@
       padding: 15px 30px;
       box-shadow: 0 0 10px white, 0 0 0 black;
       border: 2px solid #222222;
-      color: #222222;
       font-size: 1.5em;
     }
 
     .find-list {
-      background: white;
+      background: #000000eb;
       position: absolute;
       margin: auto;
       left: 50%;
@@ -32,17 +31,17 @@
       padding: 15px 30px;
       box-shadow: 0 0 10px white, 0 0 0 black;
       border: 2px solid #222222;
-      color: #222222;
+      color: white;
       font-size: 1em;
       margin-top: -1px;
       border-top: 0;
       line-height: 1em;
 
       a {
-        color: #707070;
+        color: #8d8d8d;
 
         &:hover {
-          color: black;
+          color: #ffffff;
         }
       }
     }

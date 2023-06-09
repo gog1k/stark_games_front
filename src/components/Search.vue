@@ -14,8 +14,10 @@
 <style>
 .search-line{
     width: 250px;
-    border: 1px solid white;
+    border: 1px solid #606060;
     padding: 5px 10px;
+    background: #000000eb;
+    color: white;
 }
 
 .find-list {
