@@ -28,6 +28,10 @@ class GamesService
     myGames() {
         return axios.get(API_URL + '/games/my', { headers: authHeader() })
     }
+
+    getAchievements() {
+        return axios.get(API_URL + '/games/achievements', { headers: authHeader() })
+    }
 }
 
 export default new GamesService()
